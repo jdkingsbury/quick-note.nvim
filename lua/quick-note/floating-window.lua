@@ -1,21 +1,33 @@
 local M = {} -- Naming convention for module
 
+M.buf_id = nil
+M.win_id = nil
+
 local function create_floating_window(file_path)
-	local buf = vim.api.nvim_create_buf(false, true)
+	-- Checks whether the buffer is valid before creating a new one
+	if not M.buf_id or not vim.api.nvim_buf_is_valid(M.buf_id) then
+		M.buf_id = vim.api.nvim_create_buf(false, true)
 
-	vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = buf })
-	vim.api.nvim_set_option_value("filetype", "scratch", { buf = buf })
+		-- Set buffer options when the buffer is created
+		-- - buffer is automatically deleted when the buffer is hidden
+		-- - sets the filetype to scratch
+		vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = M.buf_id })
+		vim.api.nvim_set_option_value("filetype", "scratch", { buf = M.buf_id })
 
-	vim.api.nvim_buf_call(buf, function()
-		vim.cmd("silent! edit " .. file_path)
-	end)
+		-- Load the file content into the buffer
+		vim.api.nvim_buf_call(M.buf_id, function()
+			vim.cmd("silent! edit " .. file_path)
+		end)
+	end
 
+	-- Calculate window size and position
 	local width = math.floor(vim.o.columns * 0.6)
 	local height = math.floor(vim.o.lines * 0.6)
 	local col = math.floor((vim.o.columns - width) / 2)
 	local row = math.floor((vim.o.lines - height) / 2)
 
-	local win_id = vim.api.nvim_open_win(buf, true, {
+	-- Create floating window
+	local win_id = vim.api.nvim_open_win(M.buf_id, true, {
 		relative = "editor",
 		row = row,
 		col = col,
@@ -27,9 +39,8 @@ local function create_floating_window(file_path)
 		title_pos = "center",
 	})
 
-	-- Example of creating keymap in window
-	vim.api.nvim_buf_set_keymap(buf, "n", "q", ":close<CR>", { noremap = true, silent = true })
-	-- vim.api.nvim_buf_set_keymap(buf, "n", "w", ":close<CR>", { noremap = true, silent = true })
+	-- Keymaps for the window
+	vim.api.nvim_buf_set_keymap(M.buf_id, "n", "q", ":close<CR>", { noremap = true, silent = true })
 
 	return win_id
 end
@@ -40,7 +51,7 @@ function M.toggle_floating_window(file_path)
 		vim.api.nvim_win_close(M.win_id, true)
 		M.win_id = nil
 	else
-		M.win_id = create_floating_window(file_path)
+		create_floating_window(file_path)
 	end
 end
 
