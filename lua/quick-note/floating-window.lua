@@ -37,8 +37,9 @@ local function create_floating_window(file_path, keymaps)
 		style = "minimal",
 		border = "rounded",
 		title = "quick-note",
-		title_pos = "left",
+		title_pos = "center",
 	})
+	-- vim.api.nvim_set_option_value("winhl", "Normal:NormalFloat,FloatBorder:FloatBorder", { win = win_id })
 
 	return win_id
 end

@@ -15,13 +15,9 @@ function M.setup(opts)
 	local file_path = opts.file_path or defaults.file_path
 
 	-- Set keymaps with fallback to defaults
-	M.keymaps = {
-		open_floating_window = opts.keymaps and opts.keymaps.open_floating_window
-			or defaults.keymaps.open_floating_window,
-		close_buffer = opts.keymaps and opts.keymaps.close_buffer or defaults.keymaps.close_buffer,
-		close_floating_window = opts.keymaps and opts.keymaps.open_floating_window
-			or defaults.keymaps.close_floating_window,
-	}
+	local keymaps = vim.tbl_deep_extend("force", defaults.keymaps, opts.keymaps or {})
+
+	M.keymaps = keymaps
 
 	-- Global keymap to open the quick note window
 	vim.keymap.set("n", M.keymaps.open_floating_window, function()
