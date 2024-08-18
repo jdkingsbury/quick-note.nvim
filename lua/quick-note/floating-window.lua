@@ -3,14 +3,12 @@ local M = {} -- Naming convention for module
 M.buf_id = nil
 M.win_id = nil
 
-local function create_floating_window(file_path)
+local function create_floating_window(file_path, keymaps)
 	-- Checks whether the buffer is valid before creating a new one
 	if not M.buf_id or not vim.api.nvim_buf_is_valid(M.buf_id) then
 		M.buf_id = vim.api.nvim_create_buf(false, true)
 
 		-- Set buffer options when the buffer is created
-		-- - buffer is automatically deleted when the buffer is hidden
-		-- - sets the filetype to scratch
 		vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = M.buf_id })
 		vim.api.nvim_set_option_value("filetype", "scratch", { buf = M.buf_id })
 
@@ -19,6 +17,9 @@ local function create_floating_window(file_path)
 			vim.cmd("silent! edit " .. file_path)
 		end)
 	end
+
+	-- Keymaps for the buffer
+	vim.api.nvim_buf_set_keymap(M.buf_id, "n", keymaps.close_buffer, ":close<CR>", { noremap = true, silent = true })
 
 	-- Calculate window size and position
 	local width = math.floor(vim.o.columns * 0.6)
@@ -36,22 +37,22 @@ local function create_floating_window(file_path)
 		style = "minimal",
 		border = "rounded",
 		title = "quick-note",
-		title_pos = "center",
+		title_pos = "left",
 	})
-
-	-- Keymaps for the window
-	vim.api.nvim_buf_set_keymap(M.buf_id, "n", "q", ":close<CR>", { noremap = true, silent = true })
 
 	return win_id
 end
 
-function M.toggle_floating_window(file_path)
-	-- Check if the floating window is open
+function M.close_floating_window()
 	if M.win_id and vim.api.nvim_win_is_valid(M.win_id) then
 		vim.api.nvim_win_close(M.win_id, true)
 		M.win_id = nil
-	else
-		create_floating_window(file_path)
+	end
+end
+
+function M.open_floating_window(file_path, keymaps)
+	if not M.win_id or not vim.api.nvim_win_is_valid(M.win_id) then
+		M.win_id = create_floating_window(file_path, keymaps)
 	end
 end
 
