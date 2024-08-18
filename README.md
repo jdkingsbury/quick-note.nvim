@@ -26,9 +26,13 @@ You can install `quick-note.nvim` using your favorite Neovim plugin manager.
 
 ```lua
 {
-    'jdkingsbury/quick-note.nvim',
-    opts = {},
-}
+    "jdkingsbury/quick-note.nvim",
+    config = function()
+        require("quick-note").setup({
+            file_path = "~/.config/nvim/scratch.txt",
+        })
+    end,
+},
 ```
 
 ## Usage
