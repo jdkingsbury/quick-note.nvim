@@ -2,14 +2,17 @@ local M = {} -- Naming convention for module
 local floating_window = require("quick-note.floating-window")
 
 local defaults = {
-	file_path = "~/.config/nvim/scratch.txt",
-	keymaps = {
-		open_floating_window = "<leader>no",
-		close_buffer = "q",
-		close_floating_window = "<leader>nc",
+	file_path = "~/.config/nvim/scratch.txt", -- @type string
+	keymaps = { -- @type table<string, string>
+		open_floating_window = "<leader>no", -- @type string
+		close_buffer = "q", -- @type string
+		close_floating_window = "<leader>nc", -- @type string
 	},
 }
 
+-- Setup function to initialize the keymaps and file_path
+-- @param1 opts table|nil: The table containing the user's custom configurations or nil
+-- @return void
 function M.setup(opts)
 	opts = opts or {}
 	local file_path = opts.file_path or defaults.file_path
