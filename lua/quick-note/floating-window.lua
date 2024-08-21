@@ -1,8 +1,12 @@
 local M = {} -- Naming convention for module
 
-M.buf_id = nil
-M.win_id = nil
+M.buf_id = nil -- @type nil | integer
+M.win_id = nil -- @type nil | integer
 
+-- Creates a floating window and sets the keymaps
+-- @param1 file_path string: The path of the file to be loaded to the buffer
+-- @param2 keymaps table: The table containing keymaps to be set for the buffer
+-- @return integer: The window ID of the created floating window
 local function create_floating_window(file_path, keymaps)
 	-- Checks whether the buffer is valid before creating a new one
 	if not M.buf_id or not vim.api.nvim_buf_is_valid(M.buf_id) then
@@ -39,11 +43,12 @@ local function create_floating_window(file_path, keymaps)
 		title = "quick-note",
 		title_pos = "center",
 	})
-	-- vim.api.nvim_set_option_value("winhl", "Normal:NormalFloat,FloatBorder:FloatBorder", { win = win_id })
 
 	return win_id
 end
 
+-- Closes the floating window if it is valid
+-- @return void
 function M.close_floating_window()
 	if M.win_id and vim.api.nvim_win_is_valid(M.win_id) then
 		vim.api.nvim_win_close(M.win_id, true)
@@ -51,6 +56,10 @@ function M.close_floating_window()
 	end
 end
 
+-- Opens a floating window with the specified file and keymaps
+-- @param1 file_path string: The path of the file to be loaded into the buffer
+-- @param2 keymaps table: The table containing keymaps to be set for the buffer
+-- @return void
 function M.open_floating_window(file_path, keymaps)
 	if not M.win_id or not vim.api.nvim_win_is_valid(M.win_id) then
 		M.win_id = create_floating_window(file_path, keymaps)

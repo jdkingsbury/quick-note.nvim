@@ -1,0 +1,29 @@
+==============================================================================
+INTRODUCTION                                               *quick-note.nvim*
+
+Quick-note.nvim is a plugin that provides an easy way for jotting down quick 
+notes and referencing notes you often reference.
+
+==============================================================================
+SETUP                                                     *quick-note-setup*
+
+The `quick-note.setup(opts)` function configures the plugin with user-defined
+options such as the file path and keymaps.
+
+Usage:
+
+  require('quick-note').setup {
+    file_path = "~/path/to/your/notes.txt",
+    keymaps = {
+      -- Keymap configurations
+    }
+  }
+
+==============================================================================
+Keybindings                                             *quick-note-keymaps*
+
+The following keybindings are set by default when you configure the plugin:
+
+- `open_floating_window`: `<leader>no`
+- `close_floating_window`: `<leader>nc`
+- `close_buffer`: `q`
