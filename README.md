@@ -11,12 +11,13 @@ Note: This plugin is still under active development. While it is functional, it 
 ## Features
 
 - **Floating Window for Notes**: Quickly open a floating window to jot down notes without leaving your current editing session.
+- **Split Window for Notes**: Quickly open a notes window in a vertical or horizontal split to seamlessly integrate quick notes into your workflow.
 - **Customizable Keymaps**: Define your own key mappings for opening and closing the note window.
 - **Persistent Notes**: Save notes to a file that can be reloaded across sessions.
 
 ## Limitations
 
-- Single Note Support: Currently, quick-note.nvim supports only one note at a time. The note is saved to a single file, and reopening the floating window will load the contents of that file. Multiple notes or note management features are not yet supported.
+- Single Note Support: Currently, quick-note.nvim supports only one note at a time. The note is saved to a single file, and reopening the floating or split window will load the contents of that file. Multiple notes or note management features are not yet supported.
 
 ## Installation
 
@@ -40,13 +41,9 @@ You can install `quick-note.nvim` using your favorite Neovim plugin manager.
 Once installed, you can use the following key mappings to interact with the plugin:
 
 - **Open Floating Window**: Press `<leader>no` (default) to open the floating note window.
-- **Close Floating Window**: Press `q` (default) while in the floating window to close it. Alternatively you can use `<leader>nc` to close the floating window itself.
-
-### Keymap Details
-
-- open_floating_window: Key mapping to open the floating note window (default: <leader>no).
-- close_buffer: Key mapping to close the buffer while the floating window is active (default: q).
-- close_floating_window: Key mapping to close the floating window itself (default: <leader>nc).
+- **Open Vertical Window**: Press `<leader>nvs` (default) to open the note in a vertical split.
+- **Open horizontal Window**: Press `<leader>nhs` (default) to open the note in a horizontal split.
+- **Close Window**: Press `q` (default) while in the window to close it. Alternatively you can use `<leader>nc` to close the floating window itself.
 
 ### Customizing Keymaps
 
@@ -79,8 +76,10 @@ Here are the options available in the `setup` function:
 - **`file_path`**: Path to the file where notes will be saved (default: `~/.config/nvim/scratch.txt`).
 - **`keymaps`**: Table containing key mappings:
   - **`open_floating_window`**: Key mapping to open the floating note window (default: `<leader>no`).
-  - **`close_buffer`**: Key mapping to close the floating note window (default: `q`).
-  - **`close_floating_window`**: Key mapping to close the floating note window (default `<leader>nc`)
+  - **`open_vertical_split_window`**: Key mapping to open the note window in a vertical split (default: `<leader>nvs`)
+  - **`open_horizontal_split_window`**: Key mapping to open the note window in a horizontal split (default: `<leader>nhs`)
+  - **`close_buffer`**: Key mapping to close the note window (default: `q`).
+  - **`close_window`**: Key mapping to close the note window (default `<leader>nc`)
 
 ## License
 

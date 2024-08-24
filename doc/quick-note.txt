@@ -25,5 +25,7 @@ Keybindings                                             *quick-note-keymaps*
 The following keybindings are set by default when you configure the plugin:
 
 - `open_floating_window`: `<leader>no`
+- `open_vertical_split_window`: `<leader>nvs`
+- `open_horizontal_split_window`: `<leader>nhs`
 - `close_floating_window`: `<leader>nc`
 - `close_buffer`: `q`
